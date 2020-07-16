@@ -91,7 +91,7 @@ public class pa160422_AddressOperation implements AddressOperations {
 
     @Override
     public List<Integer> getAllAddresses() {
-        
+
         return null;
     }
 
