@@ -7,13 +7,12 @@ package rs.etf.sab.tests;
 
 import java.util.Random;
 
-import sab.pa160422_AddressOperation;
+import sab.*;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import rs.etf.sab.operations.*;
-import sab.pa160422_CityOperations;
 
 public class AddressOperationsTest {
     private GeneralOperations generalOperations;
@@ -24,14 +23,14 @@ public class AddressOperationsTest {
     public AddressOperationsTest() {
         AddressOperations addressOperations = new pa160422_AddressOperation(); // Change this to your implementation.
         CityOperations cityOperations = new pa160422_CityOperations(); // Do it for all classes.
-        CourierOperations courierOperations = null; // e.g. = new MyDistrictOperations();
-        CourierRequestOperation courierRequestOperation = null;
-        DriveOperation driveOperation = null;
-        GeneralOperations generalOperations = null;
-        PackageOperations packageOperations = null;
-        StockroomOperations stockroomOperations = null;
-        UserOperations userOperations = null;
-        VehicleOperations vehicleOperations = null;
+        CourierOperations courierOperations = new pa160422_CourierOperations(); // e.g. = new MyDistrictOperations();
+        CourierRequestOperation courierRequestOperation = new pa160422_CourierRequestOperation();
+        DriveOperation driveOperation = new pa160422_DriveOperation();
+        GeneralOperations generalOperations = new pa160422_GeneralOperations();
+        PackageOperations packageOperations = new pa160422_PackageOperations();
+        StockroomOperations stockroomOperations = new pa160422_StockroomOperations();
+        UserOperations userOperations = new pa160422_UserOperations();
+        VehicleOperations vehicleOperations = new pa160422_VehicleOperations();
 
 
         TestHandler.createInstance(

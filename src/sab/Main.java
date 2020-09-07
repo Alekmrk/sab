@@ -13,7 +13,7 @@ public class Main {
         System.out.println();
         Connection connection = DB.getInstance().getConnection();
 
-        String sqlQuery = "INSERT INTO gradovi VALUES('Beograd', '11000')";
+        String sqlQuery = "INSERT INTO gradovi VALUES('BeogradBeks', '11000')";
 
         try (PreparedStatement statement = connection.prepareStatement(sqlQuery)){
 
@@ -25,6 +25,6 @@ public class Main {
         }
 
         new pa160422_AddressOperation().insertAddress("ulica",1,1,2,3);
-
+        new pa160422_CityOperations().insertCity("Mitrovica", "11030");
     }
 }

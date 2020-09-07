@@ -12,6 +12,7 @@ public class pa160422_GeneralOperations implements GeneralOperations {
     public void eraseAll() {
         Connection connection = DB.getInstance().getConnection();
         //TODO: ovo izgleda moraju da se dodaju procedure, ne moze samo ovako da se obrise baza... (valjda, not sure)
+        // ovo pogledaj ko procedure i store operation u ssms-u
         try (CallableStatement callableStatement = connection.prepareCall("EXEC EraseAll")){
 
             callableStatement.execute();

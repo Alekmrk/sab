@@ -7,10 +7,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class pa160422_AddressOperation implements AddressOperations {
-    public static List lista;
 
     @Override
     public int insertAddress(String ulica, int broj, int id_grad, int x_koordinata, int y_koordinata) {
@@ -43,7 +43,6 @@ public class pa160422_AddressOperation implements AddressOperations {
         try (PreparedStatement statement = connection.prepareStatement(sqlQuery);) {
             statement.setString(1, ulica);
             statement.setInt(2, broj);
-
             return statement.executeUpdate();
 
         } catch (Exception e) {
@@ -60,7 +59,6 @@ public class pa160422_AddressOperation implements AddressOperations {
 
         try (PreparedStatement statement = connection.prepareStatement(sqlQuery);) {
             statement.setInt(1, id_adresa);
-            //TODO: valjda nije dobro, moras da proveris executeUpdate() koji vraca broj promenjenih redova
             return statement.execute();
 
         } catch (Exception e) {
@@ -91,12 +89,57 @@ public class pa160422_AddressOperation implements AddressOperations {
 
     @Override
     public List<Integer> getAllAddresses() {
+        Connection connection = DB.getInstance().getConnection();
+        String sqlQuery = "SELECT * FROM adrese";
+
+        try (PreparedStatement statement = connection.prepareStatement(sqlQuery);) {
+
+            statement.execute();
+            ResultSet resultSet = statement.getResultSet();
+            List<Integer> result=new ArrayList<>();
+            //resultSet.first();
+            while(resultSet.next()){
+                result.add(resultSet.getInt("id_adresa"));
+            }
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         return null;
     }
 
     @Override
-    public List<Integer> getAllAddressesFromCity(int i) {
+    public List<Integer> getAllAddressesFromCity(int id_grad) {
+        Connection connection = DB.getInstance().getConnection();
+
+        String sqlQuery = "SELECT TOP 1 * FROM gradovi WHERE id_grad == ?";
+        boolean city=false;
+        try (PreparedStatement statement = connection.prepareStatement(sqlQuery);) {
+            statement.setInt(1, id_grad);
+            city=statement.execute();
+        }catch (Exception e){}
+
+        if(!city){
+            return null;
+        }
+
+        sqlQuery = "SELECT * FROM adrese WHERE id_grad == ?";
+        try (PreparedStatement statement = connection.prepareStatement(sqlQuery);) {
+            statement.setInt(1, id_grad);
+            statement.execute();
+            ResultSet resultSet = statement.getResultSet();
+            List<Integer> result=new ArrayList<>();
+            //resultSet.first();
+            while(resultSet.next()){
+                result.add(resultSet.getInt("id_adresa"));// ili stavi 1
+            }
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 }
