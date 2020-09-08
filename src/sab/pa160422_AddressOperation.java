@@ -114,18 +114,22 @@ public class pa160422_AddressOperation implements AddressOperations {
     public List<Integer> getAllAddressesFromCity(int id_grad) {
         Connection connection = DB.getInstance().getConnection();
 
-        String sqlQuery = "SELECT TOP 1 * FROM gradovi WHERE id_grad == ?";
+        String sqlQuery = "SELECT TOP 1 * FROM gradovi WHERE id_grad = ?";
         boolean city=false;
         try (PreparedStatement statement = connection.prepareStatement(sqlQuery);) {
             statement.setInt(1, id_grad);
-            city=statement.execute();
-        }catch (Exception e){}
+            statement.execute();
+            ResultSet resultSet = statement.getResultSet();
+            city= resultSet.next();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         if(!city){
             return null;
         }
 
-        sqlQuery = "SELECT * FROM adrese WHERE id_grad == ?";
+        sqlQuery = "SELECT * FROM adrese WHERE id_grad = ?";
         try (PreparedStatement statement = connection.prepareStatement(sqlQuery);) {
             statement.setInt(1, id_grad);
             statement.execute();
