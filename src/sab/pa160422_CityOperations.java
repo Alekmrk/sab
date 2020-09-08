@@ -25,10 +25,12 @@ public class pa160422_CityOperations implements CityOperations {
             return resultSet.getInt(1);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            //mora -1 zato sto smo u bazi zabranili da se dodaje dupli postanski_broj
+            return -1;
         }
 
-        return -1;
+
     }
 
     @Override
@@ -66,7 +68,7 @@ public class pa160422_CityOperations implements CityOperations {
 
         try (PreparedStatement statement = connection.prepareStatement(sqlQuery);) {
             statement.setInt(1, idCity);
-            return statement.execute();
+            return  statement.executeUpdate()==0 ? false : true;
 
         } catch (Exception e) {
             e.printStackTrace();
