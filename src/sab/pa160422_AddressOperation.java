@@ -59,13 +59,11 @@ public class pa160422_AddressOperation implements AddressOperations {
 
         try (PreparedStatement statement = connection.prepareStatement(sqlQuery);) {
             statement.setInt(1, id_adresa);
-            return statement.execute();
+            return  statement.executeUpdate()==0 ? false : true;
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
 
         return false;
     }
