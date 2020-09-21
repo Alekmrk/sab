@@ -29,7 +29,7 @@ public class pa160422_AddressOperation implements AddressOperations {
             return resultSet.getInt(1);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         return -1;

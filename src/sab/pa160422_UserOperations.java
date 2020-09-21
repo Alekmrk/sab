@@ -12,6 +12,16 @@ import java.util.List;
 public class pa160422_UserOperations implements UserOperations {
     @Override
     public boolean insertUser(String korime, String ime, String prezime, String sifra, int id_adrese) {
+        // proveri velika slova imena i sifre i tkt
+
+        if (Character.isLowerCase(ime.charAt(0)) || Character.isLowerCase(prezime.charAt(0)) || sifra.length() < 8){
+            return false;
+        }
+        String regex = "^(?=.*?\\p{Lu})(?=.*?\\p{Ll})(?=.*?\\d)" +
+                "(?=.*?[`~!@#$%^&*()\\-_=+\\\\|\\[{\\]};:'\",<.>/?]).*$";
+        if(!sifra.matches(regex)){
+            return false;
+        }
         Connection connection = DB.getInstance().getConnection();
         String sqlQuery = "INSERT INTO korisnici VALUES( ?,?,?,?,?,?)";
 
@@ -73,9 +83,24 @@ public class pa160422_UserOperations implements UserOperations {
     }
 
     @Override
-    public int getSentPackages(String... names) {// ovo mora sa dve tabele da se radi....
+    public int getSentPackages(String... names) {// TODO: ovo mora da se odradi sa dve tabele, proveri i odradi
+        if(names.length==0){
+            return -1;
+        }
         int ukupnoPosiljki=0;
-        boolean postojiKorisnik=false;
+        boolean postoji=false;
+        pa160422_UserOperations userOperations = new pa160422_UserOperations();
+        ArrayList lista = (ArrayList) userOperations.getAllUsers();
+
+        for(int i =0; i < names.length;i++){
+            if(lista.contains(names[i])){
+               postoji=true;
+               break;
+            }
+        }
+        if(!postoji){
+            return -1;
+        }
 
         if(names.length<1) return 0;
         Connection connection = DB.getInstance().getConnection();
@@ -87,7 +112,7 @@ public class pa160422_UserOperations implements UserOperations {
                 moreNames+=" OR korime = ?";
             }
         }
-        String sqlQuery = "Select * FROM korisnici WHERE korime = ?"+moreNames;
+        String sqlQuery = "Select * FROM kuriri WHERE korime = ?"+moreNames;
 
         try (PreparedStatement statement = connection.prepareStatement(sqlQuery);) {
             statement.setString(1, names[0]);
@@ -100,8 +125,9 @@ public class pa160422_UserOperations implements UserOperations {
                 while(resultSet.next()){
                     ukupnoPosiljki+=resultSet.getInt("broj_isporucenh_paketa");
                 }
+                    return ukupnoPosiljki;
 
-                return ukupnoPosiljki;
+
 
             }
 

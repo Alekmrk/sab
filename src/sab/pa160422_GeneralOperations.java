@@ -6,6 +6,7 @@ import rs.etf.sab.student.jdbc.DB;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class pa160422_GeneralOperations implements GeneralOperations {
     @Override
@@ -16,7 +17,7 @@ public class pa160422_GeneralOperations implements GeneralOperations {
         try (CallableStatement callableStatement = connection.prepareCall("EXEC EraseAll")){
 
             callableStatement.execute();
-
+            pa160422_CourierRequestOperation.mapa=new HashMap<>();
         } catch (SQLException e) {
 
         }

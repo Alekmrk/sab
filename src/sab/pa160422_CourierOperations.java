@@ -16,7 +16,7 @@ public class pa160422_CourierOperations implements CourierOperations {
     public boolean insertCourier(String courierUserName, String driverLicenceNumber) {
 
         Connection connection = DB.getInstance().getConnection();
-        String sqlQuery = "INSERT INTO kuriri ('korime', 'br_vozacke') VALUES( ?,?)";
+        String sqlQuery = "INSERT INTO kuriri (korime, br_vozacke, broj_isporucenih_paketa, status, ostvaren_profit) VALUES( ?,?,0,0,0)";
 
         try (PreparedStatement statement = connection.prepareStatement(sqlQuery, PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, courierUserName);
@@ -99,9 +99,9 @@ public class pa160422_CourierOperations implements CourierOperations {
         Connection connection = DB.getInstance().getConnection();
         String sqlQuery;
         if(broj_isporucenih_paketa==-1) {
-            sqlQuery = "SELECT avg('ostvaren_profit') FROM kuriri";
+            sqlQuery = "SELECT avg(ostvaren_profit) FROM kuriri";
         }else{
-            sqlQuery = "SELECT avg('ostvaren_profit') FROM kuriri where broj_isporucenih_paketa = ?";
+            sqlQuery = "SELECT avg(ostvaren_profit) FROM kuriri where broj_isporucenih_paketa = ?";
         }
         try (PreparedStatement statement = connection.prepareStatement(sqlQuery);) {
             if(broj_isporucenih_paketa != -1){
