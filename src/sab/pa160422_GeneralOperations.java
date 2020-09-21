@@ -17,7 +17,7 @@ public class pa160422_GeneralOperations implements GeneralOperations {
         try (CallableStatement callableStatement = connection.prepareCall("EXEC EraseAll")){
 
             callableStatement.execute();
-            pa160422_CourierRequestOperation.mapa=new HashMap<>();
+            pa160422_CourierRequestOperation.mapaZahteva=new HashMap<>();
             pa160422_VehicleOperations.parkiranaVozila= new HashMap<>();
         } catch (SQLException e) {
 

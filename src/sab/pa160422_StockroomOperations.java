@@ -72,6 +72,11 @@ public class pa160422_StockroomOperations implements StockroomOperations {
         @Override
     public boolean deleteStockroom(int idMagacin) {// TODO: moze se obrisati ukoliko postoji i prazan je
             Connection connection = DB.getInstance().getConnection();
+
+            if(pa160422_VehicleOperations.parkiranaVozila.containsValue(idMagacin)){
+                return false;
+            }
+
             String sqlQuery = "DELETE FROM magacini WHERE id_magacin = ?";
 
             try (PreparedStatement statement = connection.prepareStatement(sqlQuery);) {
@@ -105,11 +110,14 @@ public class pa160422_StockroomOperations implements StockroomOperations {
     }
     @Override
     public int deleteStockroomFromCity(int idCity) {// TODO: moze se obrisati ukoliko postoji i prazan je
+
         pa160422_AddressOperation addressOperation=new pa160422_AddressOperation();
         //List<Integer> lista=addressOperation.getAllAddressesFromCity(idCity);
         //napravi da dohvatis magacin iz grada i onda odatle mozes lako da obrise
         int idMagacin=this.getStockroomByCity(idCity);
-
+        if(pa160422_VehicleOperations.parkiranaVozila.containsValue(idMagacin)){
+            return -1;
+        }
         if(idMagacin!=-1){
              this.deleteStockroom(idMagacin);
              return idMagacin;

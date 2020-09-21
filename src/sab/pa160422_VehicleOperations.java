@@ -89,7 +89,7 @@ public class pa160422_VehicleOperations implements VehicleOperations {
         return parkiranaVozila.containsKey(tablica);
     }
     @Override
-    public boolean changeFuelType(String tablica, int tip) {// TODO: ovo je moguce samo kada je vozilo u agacinu. to se mora proveriti
+    public boolean changeFuelType(String tablica, int tip) {// TODO: ovo je moguce samo kada je vozilo u magacinu. to se mora proveriti
         if(!checkParked(tablica)){
             return false;
         }

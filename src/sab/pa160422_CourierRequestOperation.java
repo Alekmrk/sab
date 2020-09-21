@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class pa160422_CourierRequestOperation implements CourierRequestOperation {
 
-    public static HashMap<String,String> mapa=new HashMap<>();
+    public static HashMap<String,String> mapaZahteva=new HashMap<>();
     @Override
     public boolean insertCourierRequest(String korime, String br_vozacke) {
 
@@ -24,31 +24,31 @@ public class pa160422_CourierRequestOperation implements CourierRequestOperation
         if(courierOperations.getAllCouriers().contains(korime)){
             return false;
         }
-        if(mapa.containsValue(br_vozacke)){
+        if(mapaZahteva.containsValue(br_vozacke)){
             return false;
         }
-        if(!mapa.containsKey(korime)) {
-            mapa.put(korime, br_vozacke);
+        if(!mapaZahteva.containsKey(korime)) {
+            mapaZahteva.put(korime, br_vozacke);
         }
         return true;
     }
 
     @Override
     public boolean deleteCourierRequest(String korime) {
-        if (!mapa.containsKey(korime)) {
+        if (!mapaZahteva.containsKey(korime)) {
             return false;
         }
-        mapa.remove(korime);
+        mapaZahteva.remove(korime);
         return true;
     }
 
     @Override
     public boolean changeDriverLicenceNumberInCourierRequest(String korime, String br_vozacke) {
-        if (!mapa.containsKey(korime)) {
+        if (!mapaZahteva.containsKey(korime)) {
             return false;
         }
 
-        mapa.replace(korime,br_vozacke);
+        mapaZahteva.replace(korime,br_vozacke);
 
         return true;
     }
@@ -57,7 +57,7 @@ public class pa160422_CourierRequestOperation implements CourierRequestOperation
     public List<String> getAllCourierRequests() {
         List<String> lista = new ArrayList<>();
 
-        Set<String> keySet = mapa.keySet();
+        Set<String> keySet = mapaZahteva.keySet();
         lista = new ArrayList<String>(keySet);
 
         return lista;
@@ -65,12 +65,12 @@ public class pa160422_CourierRequestOperation implements CourierRequestOperation
 
     @Override
     public boolean grantRequest(String korime) {
-        if (!mapa.containsKey(korime)) {
+        if (!mapaZahteva.containsKey(korime)) {
             return false;
         }
 
-        String dozvola = mapa.get(korime);
-        mapa.remove(korime);
+        String dozvola = mapaZahteva.get(korime);
+        mapaZahteva.remove(korime);
         pa160422_CourierOperations courierOperations = new pa160422_CourierOperations();
 
         return courierOperations.insertCourier(korime,dozvola);
