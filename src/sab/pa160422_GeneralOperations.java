@@ -18,6 +18,7 @@ public class pa160422_GeneralOperations implements GeneralOperations {
 
             callableStatement.execute();
             pa160422_CourierRequestOperation.mapa=new HashMap<>();
+            pa160422_VehicleOperations.parkiranaVozila= new HashMap<>();
         } catch (SQLException e) {
 
         }
